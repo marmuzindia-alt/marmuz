@@ -551,5 +551,133 @@ body {
   if (routes[initial]) openRoute(initial);
 })();
 </script>
+
+
+<!-- CUET 2027 launch popup -->
+<style>
+  .cuet-popup-overlay {
+    position: fixed;
+    inset: 0;
+    z-index: 9999;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    background: rgba(0,0,0,.72);
+    backdrop-filter: blur(5px);
+    -webkit-backdrop-filter: blur(5px);
+    animation: cuetFadeIn .22s ease-out;
+  }
+  .cuet-popup {
+    position: relative;
+    width: min(92vw, 520px);
+    overflow: hidden;
+    border-radius: 24px;
+    background: #fff;
+    color: #111;
+    box-shadow: 0 28px 80px rgba(0,0,0,.38);
+    text-align: center;
+    padding: 38px 28px 30px;
+    border: 1px solid rgba(255,255,255,.25);
+  }
+  .cuet-popup-badge {
+    display: inline-block;
+    margin-bottom: 14px;
+    padding: 7px 12px;
+    border-radius: 999px;
+    background: #0b5d3b;
+    color: #fff;
+    font: 700 12px/1 Arial, sans-serif;
+    letter-spacing: .08em;
+  }
+  .cuet-popup h2 {
+    margin: 0 0 10px;
+    font: 800 clamp(28px, 7vw, 42px)/1.05 Arial, Helvetica, sans-serif;
+    letter-spacing: -.04em;
+  }
+  .cuet-popup h2 span { color: #0b5d3b; }
+  .cuet-popup p {
+    margin: 0 auto 22px;
+    max-width: 390px;
+    color: #555;
+    font: 500 16px/1.5 Arial, Helvetica, sans-serif;
+  }
+  .cuet-popup-actions {
+    display: flex;
+    gap: 10px;
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+  .cuet-popup-btn {
+    display: inline-block;
+    border: 0;
+    border-radius: 12px;
+    padding: 13px 20px;
+    background: #0b5d3b;
+    color: #fff;
+    font: 700 14px/1 Arial, sans-serif;
+    cursor: pointer;
+    text-decoration: none;
+  }
+  .cuet-popup-close {
+    position: absolute;
+    top: 12px;
+    right: 12px;
+    width: 38px;
+    height: 38px;
+    border: 1px solid #e5e5e5;
+    border-radius: 50%;
+    background: #fff;
+    color: #222;
+    font: 400 24px/36px Arial, sans-serif;
+    cursor: pointer;
+  }
+  .cuet-popup-close:hover { background: #f5f5f5; }
+  @keyframes cuetFadeIn { from { opacity: 0; } to { opacity: 1; } }
+  @media (max-width: 480px) {
+    .cuet-popup { padding: 36px 20px 24px; border-radius: 20px; }
+    .cuet-popup p { font-size: 15px; }
+  }
+</style>
+
+<div class="cuet-popup-overlay" id="cuet2027Popup" role="dialog" aria-modal="true" aria-labelledby="cuet2027Title">
+  <div class="cuet-popup">
+    <button class="cuet-popup-close" id="cuet2027Close" type="button" aria-label="Close">×</button>
+    <div class="cuet-popup-badge">MARMUZ • ADMISSIONS OPEN</div>
+    <h2 id="cuet2027Title">CUET <span>2027</span><br>Batches Live Now</h2>
+    <p>Start your CUET Economics preparation with Marmuz. <strong>Hurry — batches are live now.</strong></p>
+    <div class="cuet-popup-actions">
+      <button class="cuet-popup-btn" id="cuet2027Explore" type="button">Explore CUET 2027</button>
+    </div>
+  </div>
+</div>
+
+<script>
+(function () {
+  const popup = document.getElementById('cuet2027Popup');
+  const close = document.getElementById('cuet2027Close');
+  const explore = document.getElementById('cuet2027Explore');
+  if (!popup) return;
+
+  function closePopup() {
+    popup.style.display = 'none';
+    document.body.style.overflow = '';
+  }
+
+  close.addEventListener('click', closePopup);
+  popup.addEventListener('click', function (e) {
+    if (e.target === popup) closePopup();
+  });
+  explore.addEventListener('click', function () {
+    closePopup();
+    const target = document.querySelector('[data-action="courses"]');
+    if (target) target.click();
+    else if (typeof openRoute === 'function') openRoute('cuet');
+  });
+
+  document.body.style.overflow = 'hidden';
+})();
+</script>
+
 </body>
 </html>
