@@ -1,0 +1,360 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>Marmuz — Decode. Learn. Master.</title>
+
+  <meta name="description"
+        content="Marmuz — simplified economics, exam resources, current affairs and one-page revision tools.">
+
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: Arial, Helvetica, sans-serif;
+      background: #ffffff;
+      color: #17211b;
+      line-height: 1.5;
+    }
+
+    header {
+      border-bottom: 1px solid #e8ece9;
+      padding: 16px 20px;
+      position: sticky;
+      top: 0;
+      background: rgba(255,255,255,0.96);
+      z-index: 10;
+    }
+
+    .nav {
+      max-width: 1100px;
+      margin: auto;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .logo {
+      font-size: 25px;
+      font-weight: 800;
+      letter-spacing: -1px;
+      color: #0b5d3b;
+    }
+
+    .nav-button {
+      text-decoration: none;
+      color: #ffffff;
+      background: #0b5d3b;
+      padding: 9px 15px;
+      border-radius: 8px;
+      font-size: 14px;
+      font-weight: 700;
+    }
+
+    .hero {
+      max-width: 1100px;
+      margin: auto;
+      padding: 70px 20px 55px;
+      text-align: center;
+    }
+
+    .badge {
+      display: inline-block;
+      background: #edf7f2;
+      color: #0b5d3b;
+      padding: 7px 13px;
+      border-radius: 30px;
+      font-size: 13px;
+      font-weight: 700;
+      margin-bottom: 20px;
+    }
+
+    h1 {
+      font-size: clamp(42px, 8vw, 76px);
+      line-height: 1.02;
+      letter-spacing: -3px;
+      margin-bottom: 20px;
+    }
+
+    .green {
+      color: #0b5d3b;
+    }
+
+    .hero p {
+      max-width: 650px;
+      margin: auto;
+      color: #5d6761;
+      font-size: 18px;
+    }
+
+    .search {
+      max-width: 620px;
+      margin: 30px auto 0;
+      display: flex;
+      gap: 8px;
+    }
+
+    .search input {
+      flex: 1;
+      padding: 15px 17px;
+      border: 1px solid #d9e0dc;
+      border-radius: 10px;
+      font-size: 15px;
+      outline: none;
+    }
+
+    .search button {
+      border: none;
+      background: #0b5d3b;
+      color: white;
+      border-radius: 10px;
+      padding: 0 20px;
+      font-weight: 700;
+      cursor: pointer;
+    }
+
+    .section {
+      max-width: 1100px;
+      margin: auto;
+      padding: 35px 20px 70px;
+    }
+
+    .section-title {
+      margin-bottom: 22px;
+    }
+
+    .section-title h2 {
+      font-size: 30px;
+      letter-spacing: -1px;
+    }
+
+    .section-title p {
+      color: #6c756f;
+      margin-top: 5px;
+    }
+
+    .cards {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 18px;
+    }
+
+    .card {
+      border: 1px solid #e2e8e4;
+      border-radius: 15px;
+      padding: 25px;
+      background: #fff;
+      transition: 0.2s;
+    }
+
+    .card:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 12px 30px rgba(0,0,0,0.07);
+    }
+
+    .icon {
+      font-size: 25px;
+      margin-bottom: 14px;
+    }
+
+    .card h3 {
+      margin-bottom: 8px;
+      font-size: 19px;
+    }
+
+    .card p {
+      color: #69736d;
+      font-size: 14px;
+    }
+
+    .cta {
+      background: #0b5d3b;
+      color: white;
+      border-radius: 20px;
+      padding: 45px 25px;
+      text-align: center;
+    }
+
+    .cta h2 {
+      font-size: 32px;
+      margin-bottom: 10px;
+    }
+
+    .cta p {
+      color: #d8ebe2;
+      margin-bottom: 22px;
+    }
+
+    .cta a {
+      display: inline-block;
+      background: white;
+      color: #0b5d3b;
+      text-decoration: none;
+      padding: 12px 20px;
+      border-radius: 9px;
+      font-weight: 700;
+    }
+
+    footer {
+      border-top: 1px solid #e8ece9;
+      padding: 25px 20px;
+      text-align: center;
+      color: #7a837e;
+      font-size: 13px;
+    }
+
+    @media (max-width: 700px) {
+      .hero {
+        padding-top: 55px;
+      }
+
+      .cards {
+        grid-template-columns: 1fr;
+      }
+
+      .search {
+        flex-direction: column;
+      }
+
+      .search button {
+        padding: 13px;
+      }
+
+      h1 {
+        letter-spacing: -2px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+<header>
+  <nav class="nav">
+    <div class="logo">MARMUZ</div>
+
+    <a href="#" class="nav-button">
+      Student Login
+    </a>
+  </nav>
+</header>
+
+<main>
+
+  <section class="hero">
+
+    <div class="badge">
+      ECONOMICS • REGULATORY EXAMS
+    </div>
+
+    <h1>
+      Decode.<br>
+      <span class="green">Learn. Master.</span>
+    </h1>
+
+    <p>
+      Marmuz simplifies complex economics and exam resources
+      into clear explanations, smart revision tools and focused
+      learning material.
+    </p>
+
+    <div class="search">
+      <input
+        type="text"
+        id="searchInput"
+        placeholder="Search economics, RBI, schemes..."
+      >
+
+      <button onclick="searchMarmuz()">
+        Search
+      </button>
+    </div>
+
+  </section>
+
+  <section class="section">
+
+    <div class="section-title">
+      <h2>Explore Marmuz</h2>
+      <p>Everything you need for focused preparation.</p>
+    </div>
+
+    <div class="cards">
+
+      <div class="card">
+        <div class="icon">📊</div>
+        <h3>Economy Explained</h3>
+        <p>
+          Understand important economic concepts,
+          events and developments without unnecessary complexity.
+        </p>
+      </div>
+
+      <div class="card">
+        <div class="icon">🏦</div>
+        <h3>Regulatory Exams</h3>
+        <p>
+          Focused resources for RBI, SEBI, NABARD
+          and other regulatory body examinations.
+        </p>
+      </div>
+
+      <div class="card">
+        <div class="icon">🧠</div>
+        <h3>Revision Tools</h3>
+        <p>
+          One-page revision sheets, mind maps and
+          concise learning resources.
+        </p>
+      </div>
+
+    </div>
+
+  </section>
+
+  <section class="section">
+
+    <div class="cta">
+
+      <h2>Learn smarter with Marmuz.</h2>
+
+      <p>
+        Complex information. Clearly decoded.
+      </p>
+
+      <a href="#">
+        Explore Resources
+      </a>
+
+    </div>
+
+  </section>
+
+</main>
+
+<footer>
+  © 2026 Marmuz. Decode. Learn. Master.
+</footer>
+
+<script>
+  function searchMarmuz() {
+    const input = document.getElementById("searchInput");
+    const query = input.value.trim();
+
+    if (!query) {
+      alert("Please enter something to search.");
+      return;
+    }
+
+    alert("Marmuz search coming soon for: " + query);
+  }
+</script>
+
+</body>
+</html>
