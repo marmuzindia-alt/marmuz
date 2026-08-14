@@ -154,6 +154,20 @@ body {
 
 
 <!-- MARMUZ LECTURES — public student view; admin controls live on admin.html -->
+
+<section class="marmuz-explains" id="marmuz-explains" aria-label="Marmuz Explains short economics videos">
+  <div class="explains-head">
+    <div><div class="section-kicker">MARMUZ EXPLAINS</div><h2>Small concepts. Clearly decoded.</h2><p>Short economics animations and focused visual lessons.</p></div>
+  </div>
+  <div class="explains-shell">
+    <div class="explains-video" id="explainsVideo">
+      <div class="explains-empty"><div class="explains-play">▶</div><h3>Explains will appear here.</h3><p>Short Marmuz Explains videos will be published here.</p></div>
+    </div>
+    <div class="explains-info"><span class="explains-tag">SHORT ECONOMICS VIDEO</span><h3 id="explainsTitle">Marmuz Explains</h3><p id="explainsMeta">Watch short concept videos directly inside Marmuz.</p></div>
+  </div>
+  <div class="explains-list" id="explainsList" aria-live="polite"></div>
+</section>
+
 <section class="marmuz-lectures" id="marmuz-lectures" aria-label="Marmuz Lectures">
   <div class="lectures-head">
     <div>
@@ -199,43 +213,50 @@ body {
 .lecture-card:hover{border-color:#ef2029}.lecture-card-title{font-weight:750}.lecture-card-meta{font-size:12px;color:#888;margin-top:4px}.lecture-card-play{flex:0 0 auto;width:38px;height:38px;border-radius:50%;display:grid;place-items:center;background:#ef2029;color:#fff}
 @media(max-width:600px){.marmuz-lectures{padding:0 16px;margin-top:38px}.lectures-head h2{font-size:30px}.lecture-shell{border-radius:18px}.lecture-empty h3{font-size:19px}.lecture-empty p{font-size:13px}.lecture-play{width:54px;height:54px}.lecture-info{padding:15px 16px 18px}.lecture-card{padding:12px 13px}}
 </style>
+<style>
+/* Marmuz Explains — short-form video player */
+.marmuz-explains{margin:48px 0 24px;padding:0 24px;color:#f5f5f5}
+.explains-head{max-width:1100px;margin:0 auto 18px;display:flex;align-items:flex-end;justify-content:space-between;gap:18px}
+.marmuz-explains .section-kicker{color:#ef2029;font-size:12px;font-weight:800;letter-spacing:.18em;margin-bottom:8px}
+.explains-head h2{margin:0;font-size:clamp(28px,4vw,46px);line-height:1.02;letter-spacing:-.035em}
+.explains-head p{margin:10px 0 0;color:#a9abad;font-size:15px}
+.explains-shell{max-width:1100px;margin:0 auto;overflow:hidden;border:1px solid #2c2f31;border-radius:24px;background:#0d0f10;box-shadow:0 18px 50px rgba(0,0,0,.28)}
+.explains-video{position:relative;aspect-ratio:16/9;background:radial-gradient(circle at 50% 40%,rgba(239,32,41,.16),transparent 35%),#090b0c}
+.explains-empty{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:24px}
+.explains-play{width:64px;height:64px;border-radius:50%;display:grid;place-items:center;background:#ef2029;color:#fff;margin-bottom:16px;padding-left:3px}
+.explains-empty h3{margin:0 0 7px;font-size:22px}.explains-empty p{margin:0;color:#9fa3a6}
+.explains-frame{width:100%;height:100%;border:0;display:block}
+.explains-info{padding:18px 20px 22px}.explains-tag{color:#ef2029;font-size:11px;font-weight:800;letter-spacing:.16em}.explains-info h3{margin:6px 0 4px;font-size:20px}.explains-info p{margin:0;color:#999da0;font-size:14px}
+.explains-list{max-width:1100px;margin:14px auto 0;display:grid;gap:10px}
+.explains-card{border:1px solid #2c2f31;background:#0d0f10;border-radius:16px;padding:14px 16px;display:flex;align-items:center;justify-content:space-between;gap:14px;cursor:pointer;color:#fff;text-align:left}
+.explains-card:hover{border-color:#ef2029}.explains-card-title{font-weight:750;display:block}.explains-card-meta{font-size:12px;color:#888;margin-top:4px;display:block}.explains-card-play{flex:0 0 auto;width:38px;height:38px;border-radius:50%;display:grid;place-items:center;background:#ef2029;color:#fff}
+@media(max-width:600px){.marmuz-explains{padding:0 16px;margin-top:38px}.explains-head h2{font-size:30px}.explains-shell{border-radius:18px}.explains-empty h3{font-size:19px}.explains-empty p{font-size:13px}.explains-play{width:54px;height:54px}.explains-info{padding:15px 16px 18px}.explains-card{padding:12px 13px}}
+</style>
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script src="config.js"></script>
 <script>
 (() => {
   const cfg = window.MARMUZ_SUPABASE || {};
-  const list = document.getElementById('lectureList');
-  const video = document.getElementById('lectureVideo');
-  const title = document.getElementById('lectureTitle');
-  const meta = document.getElementById('lectureMeta');
-  const demoLectures = [
-    {id:"demo-1",title:"Slutsky Equation — Concept Preview",subject:"Microeconomics",topic:"Consumer Theory",youtube_url:"https://www.youtube.com/watch?v=dQw4w9WgXcQ"},
-    {id:"demo-2",title:"IS-LM Model — Concept Preview",subject:"Macroeconomics",topic:"IS-LM",youtube_url:"https://www.youtube.com/watch?v=dQw4w9WgXcQ"}
-  ];
   const client = (cfg.url && cfg.publishableKey && !cfg.url.includes('YOUR_')) ? window.supabase.createClient(cfg.url, cfg.publishableKey) : null;
-
-  function showLecture(row){
-    video.innerHTML = '<iframe class="lecture-frame" src="https://www.youtube.com/embed/'+encodeURIComponent((new URL(row.youtube_url).searchParams.get('v')) || (new URL(row.youtube_url).pathname.split('/').filter(Boolean).pop()))+'" title="'+escapeHtml(row.title)+'" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>';
-    title.textContent = row.title;
-    meta.textContent = [row.subject, row.topic].filter(Boolean).join(' • ') || 'Published Marmuz lecture';
-    document.getElementById('marmuz-lectures').scrollIntoView({behavior:'smooth',block:'start'});
-  }
-  function escapeHtml(x){return String(x).replace(/[&<>'"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;',"'":'&#39;','"':'&quot;'}[c]));}
+  const lectureList=document.getElementById('lectureList'), lectureVideo=document.getElementById('lectureVideo'), lectureTitle=document.getElementById('lectureTitle'), lectureMeta=document.getElementById('lectureMeta');
+  const explainsList=document.getElementById('explainsList'), explainsVideo=document.getElementById('explainsVideo'), explainsTitle=document.getElementById('explainsTitle'), explainsMeta=document.getElementById('explainsMeta');
+  const demoLectures=[{id:'demo-l1',title:'Slutsky Equation — Concept Preview',subject:'Microeconomics',topic:'Consumer Theory',youtube_url:'https://www.youtube.com/watch?v=dQw4w9WgXcQ'}];
+  const demoExplains=[{id:'demo-e1',title:'What is Opportunity Cost?',subject:'Microeconomics',topic:'Basic Concepts',youtube_url:'https://www.youtube.com/watch?v=dQw4w9WgXcQ'}];
+  function escapeHtml(x){return String(x??'').replace(/[&<>'"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;',"'":'&#39;','"':'&quot;'}[c]));}
+  function youtubeId(url){try{const u=new URL(url);if(u.hostname.includes('youtu.be'))return u.pathname.slice(1).split('/')[0];return u.searchParams.get('v')||u.pathname.split('/').filter(Boolean).pop()||'';}catch{return '';}}
+  function frame(url,title){const id=youtubeId(url);return id?'<iframe class="lecture-frame" src="https://www.youtube.com/embed/'+encodeURIComponent(id)+'" title="'+escapeHtml(title)+'" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>':'';}
+  function showLecture(row){lectureVideo.innerHTML=frame(row.youtube_url,row.title);lectureTitle.textContent=row.title;lectureMeta.textContent=[row.subject,row.topic].filter(Boolean).join(' • ')||'Published Marmuz lecture';document.getElementById('marmuz-lectures').scrollIntoView({behavior:'smooth',block:'start'});}
+  function showExplain(row){explainsVideo.innerHTML=frame(row.youtube_url,row.title).replace('lecture-frame','explains-frame');explainsTitle.textContent=row.title;explainsMeta.textContent=[row.subject,row.topic].filter(Boolean).join(' • ')||'Published Marmuz Explain';document.getElementById('marmuz-explains').scrollIntoView({behavior:'smooth',block:'start'});}
+  function renderCards(list,rows,type){list.innerHTML='';(rows||[]).forEach(row=>{const card=document.createElement('button');card.type='button';card.className=type==='explains'?'explains-card':'lecture-card';card.innerHTML='<span><span class="'+type+'-card-title">'+escapeHtml(row.title)+'</span><span class="'+type+'-card-meta">'+escapeHtml([row.subject,row.topic].filter(Boolean).join(' • '))+'</span></span><span class="'+type+'-card-play">▶</span>';card.addEventListener('click',()=>type==='explains'?showExplain(row):showLecture(row));list.appendChild(card);});}
   async function load(){
-    let data = demoLectures;
-    if (client) {
-      const result = await client.from('lectures').select('id,title,subject,topic,youtube_url,created_at').eq('published',true).order('created_at',{ascending:false});
-      if (!result.error && result.data && result.data.length) data = result.data;
-      else if (result.error) console.warn('Marmuz lectures:', result.error.message);
+    let lectures=demoLectures, explains=demoExplains;
+    if(client){
+      const [l,e]=await Promise.all([client.from('lectures').select('id,title,subject,topic,youtube_url,created_at').eq('published',true).order('created_at',{ascending:false}),client.from('explains').select('id,title,subject,topic,youtube_url,description,created_at').eq('published',true).order('created_at',{ascending:false})]);
+      if(!l.error&&l.data?.length)lectures=l.data; if(!e.error&&e.data?.length)explains=e.data;
+      if(l.error)console.warn('Marmuz lectures:',l.error.message); if(e.error)console.warn('Marmuz explains:',e.error.message);
     }
-    list.innerHTML='';
-    (data||[]).forEach(row=>{
-      const card=document.createElement('button'); card.type='button'; card.className='lecture-card';
-      card.innerHTML='<span><span class="lecture-card-title">'+escapeHtml(row.title)+'</span><span class="lecture-card-meta">'+escapeHtml([row.subject,row.topic].filter(Boolean).join(' • '))+'</span></span><span class="lecture-card-play">▶</span>';
-      card.addEventListener('click',()=>showLecture(row)); list.appendChild(card);
-    });
-    if(data && data[0]) showLecture(data[0]);
+    renderCards(lectureList,lectures,'lecture');renderCards(explainsList,explains,'explains');if(lectures[0])showLecture(lectures[0]);if(explains[0])showExplain(explains[0]);
   }
   load();
 })();

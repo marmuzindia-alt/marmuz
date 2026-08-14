@@ -21,6 +21,17 @@ create table if not exists public.lectures (
   created_at timestamptz not null default now()
 );
 
+create table if not exists public.explains (
+  id uuid primary key default gen_random_uuid(),
+  title text not null,
+  description text,
+  subject text,
+  topic text,
+  youtube_url text not null,
+  published boolean not null default false,
+  created_at timestamptz not null default now()
+);
+
 create table if not exists public.resources (
   id uuid primary key default gen_random_uuid(),
   title text not null,
@@ -40,6 +51,7 @@ create table if not exists public.announcements (
 );
 
 create index if not exists lectures_created_at_idx on public.lectures(created_at desc);
+create index if not exists explains_created_at_idx on public.explains(created_at desc);
 create index if not exists resources_created_at_idx on public.resources(created_at desc);
 
 create or replace function public.is_admin()
@@ -57,6 +69,7 @@ $$;
 
 alter table public.profiles enable row level security;
 alter table public.lectures enable row level security;
+alter table public.explains enable row level security;
 alter table public.resources enable row level security;
 alter table public.announcements enable row level security;
 
@@ -72,6 +85,15 @@ create policy "admin update lectures" on public.lectures for update to authentic
 drop policy if exists "admin delete lectures" on public.lectures;
 create policy "admin delete lectures" on public.lectures for delete to authenticated using (public.is_admin());
 
+
+drop policy if exists "public read published explains" on public.explains;
+create policy "public read published explains" on public.explains for select to anon, authenticated using (published = true or public.is_admin());
+drop policy if exists "admin insert explains" on public.explains;
+create policy "admin insert explains" on public.explains for insert to authenticated with check (public.is_admin());
+drop policy if exists "admin update explains" on public.explains;
+create policy "admin update explains" on public.explains for update to authenticated using (public.is_admin()) with check (public.is_admin());
+drop policy if exists "admin delete explains" on public.explains;
+create policy "admin delete explains" on public.explains for delete to authenticated using (public.is_admin());
 drop policy if exists "public read published resources" on public.resources;
 create policy "public read published resources" on public.resources for select to anon, authenticated using (published = true or public.is_admin());
 drop policy if exists "admin insert resources" on public.resources;
